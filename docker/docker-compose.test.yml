@@ -1,0 +1,6 @@
+services:
+  api:
+    env_file: !override
+      - ../url-shortener-api/.env.test
+    command: uv run pytest -v
+    ports: !reset []
