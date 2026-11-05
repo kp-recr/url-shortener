@@ -12,7 +12,8 @@ class ShortURLCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = URLAlias
-        fields = ["url", "short_url"]
+        fields = ["url", "short_url", "key"]
+        read_only_fields = ["key"]
 
     def get_short_url(self, url_alias: URLAlias) -> str:
         base_url = settings.ALIAS_BASE_URL.rstrip("/")
