@@ -1,7 +1,7 @@
 [project]
 name = "url-shortener-api"
 version = "0.1.0"
-description = "URL shortener mini DRF project"
+description = "URL shortener API"
 readme = "README.md"
 requires-python = ">=3.14"
 
