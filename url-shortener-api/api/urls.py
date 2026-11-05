@@ -8,4 +8,9 @@ urlpatterns = [
         views.create_short_url,
         name="short-url-create",
     ),
+    path(
+        "short-urls/<str:key>/",
+        views.resolve_short_url_by_key,
+        name="short-url-resolve-by-key",
+    ),
 ]

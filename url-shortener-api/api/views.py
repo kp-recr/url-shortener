@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
@@ -22,3 +23,10 @@ def create_short_url(request: Request) -> Response:
     serializer.save()
 
     return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(["GET"])
+def resolve_short_url_by_key(request: Request, key: str) -> Response:
+    url_alias = get_object_or_404(URLAlias, key=key)
+
+    return Response({"target_url": url_alias.target_url})
