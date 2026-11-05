@@ -1,11 +1,15 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import status
+from rest_framework import serializers, status
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
 from rest_framework.response import Response
 
 from api.models import URLAlias
-from api.serializers import ShortURLCreateSerializer
+from api.serializers import (
+    ShortURLCreateSerializer,
+    ShortURLResolveSerializer,
+)
+from api.services import extract_key
 
 
 @api_view(["POST"])
@@ -23,6 +27,22 @@ def create_short_url(request: Request) -> Response:
     serializer.save()
 
     return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(["GET"])
+def resolve_short_url(request: Request) -> Response:
+    serializer = ShortURLResolveSerializer(data=request.query_params)
+    serializer.is_valid(raise_exception=True)
+
+    url = serializer.validated_data["url"]
+    try:
+        key = extract_key(url)
+    except ValueError as value_error:
+        raise serializers.ValidationError({"url": str(value_error)}) from value_error
+
+    url_alias = get_object_or_404(URLAlias, key=key)
+
+    return Response({"target_url": url_alias.target_url})
 
 
 @api_view(["GET"])

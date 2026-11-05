@@ -20,3 +20,7 @@ class ShortURLCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data: dict[str, Any]) -> URLAlias:
         return URLAlias.objects.create_with_unique_key(**validated_data)
+
+
+class ShortURLResolveSerializer(serializers.Serializer):
+    url = serializers.URLField()
