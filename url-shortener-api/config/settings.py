@@ -7,6 +7,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() == "true"
 
+ALIAS_BASE_URL = os.environ.get(
+    "ALIAS_BASE_URL",
+    "http://localhost:8000/shrt/",
+)
+
 ALLOWED_HOSTS = []
 
 
