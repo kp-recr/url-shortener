@@ -37,3 +37,44 @@ def test_shorten_and_resolve_url(live_server: LiveServer) -> None:
     assert resolve_response.status_code == 200
 
     assert resolve_response.json()["target_url"] == target_url
+
+
+def test_validation_error_on_invalid_url(live_server: LiveServer) -> None:
+    create_response = requests.post(
+        f"{live_server.url}/api/short-urls/",
+        json={"url": "invalid-url"},
+        timeout=2,
+    )
+
+    assert create_response.status_code == 400
+
+
+def test_required_field_error(live_server: LiveServer) -> None:
+    create_response = requests.post(
+        f"{live_server.url}/api/short-urls/",
+        json={"something": "elseurl"},
+        timeout=2,
+    )
+
+    assert create_response.status_code == 400
+    assert "url" in create_response.json()
+
+
+def test_unexisting_alias_by_key(live_server: LiveServer) -> None:
+    response = requests.get(
+        f"{live_server.url}/api/short-urls/unexisting-key/",
+        timeout=2,
+    )
+
+    assert response.status_code == 404
+
+
+def test_unexisting_alias_by_url(live_server: LiveServer) -> None:
+    resolve_response = requests.get(
+        f"{live_server.url}/api/short-urls/resolve/",
+        params={"url": "http://someotherdomain.com/asecefewrf"},
+        timeout=2,
+    )
+
+    assert resolve_response.status_code == 400
+    assert "url" in resolve_response.json()
