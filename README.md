@@ -1,8 +1,8 @@
-### URL Shortener API
+## URL Shortener API
 
-A basic URL shortening API, written with Django Rest Framework.
+A simple URL shortening API built with Django REST Framework, using uv for Python dependency management.
 
-#### Start application (Docker)
+### Start application (Docker)
 
 To start the application in a development environment:
 
@@ -18,7 +18,7 @@ The short URL base can be configured using the ALIAS_BASE_URL environment variab
 
 ---
 
-### Initial setup
+### Initial setup (Docker)
 
 After starting the application, run migrations:
 
@@ -28,7 +28,7 @@ make docker-migrate
 
 ---
 
-#### API
+### API
 
 Base URL: `http://localhost:8000`
 
@@ -75,7 +75,7 @@ Output for both:
 
 ---
 
-#### Tests
+### Tests
 
 ```bash
 make docker-test
